@@ -70,7 +70,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function SignInSide() {
+export default function SignInSide(props) {
   const theme = useTheme();
   const classes = useStyles(theme);
 
@@ -91,9 +91,10 @@ export default function SignInSide() {
                 fullWidth
                 id="email"
                 label="Usuario"
-                name="email"
+                name="username"
                 autoComplete="email"
                 autoFocus
+                onChange={(event) => props.handleChange(event) }
                 />
                 <TextField
                 variant="outlined"
@@ -105,6 +106,7 @@ export default function SignInSide() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                onChange={(event) => props.handleChange(event) }
                 />
                 <FormControlLabel
                 control={<Checkbox value="remember" className={classes.formControlLabel} />}
@@ -116,6 +118,7 @@ export default function SignInSide() {
                   fullWidth
                   variant="contained"
                   className={classes.submit}
+                  onClick={props.handleLogin}
                   >
                   Iniciar Sesión
                   </Button>

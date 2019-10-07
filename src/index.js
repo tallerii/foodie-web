@@ -9,6 +9,10 @@ import App from './components/App';
 import Login from './components/Login';
 import Users from './components/Users'
 import Contact from './components/Contact'
+import configureStore from './modules/store'
+import { Provider as ReduxProvider } from "react-redux";
+
+const reduxStore = configureStore({ isLogged: false });
 
 const theme = createMuiTheme({
     palette: {
@@ -28,16 +32,18 @@ const theme = createMuiTheme({
 });
 
 const routing = (
-    <ThemeProvider theme={theme}>
-        <Router>
-        <div>
-            <Route path="/" component={App} />
-            <Route path="/login" component={Login} />
-            <Route path="/users" component={Users} />
-            <Route path="/contact" component={Contact} />
-        </div>
-        </Router>
-    </ThemeProvider>
+    <ReduxProvider store={reduxStore}>
+        <ThemeProvider theme={theme}>
+            <Router>
+            <div>
+                <Route path="/" component={App} />
+                <Route path="/login" component={Login} />
+                <Route path="/users" component={Users} />
+                <Route path="/contact" component={Contact} />
+            </div>
+            </Router>
+        </ThemeProvider>
+    </ReduxProvider>
   )
 
 ReactDOM.render(routing, document.getElementById('root'));

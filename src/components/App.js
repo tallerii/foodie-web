@@ -1,18 +1,33 @@
 import React from 'react'
+import { connect } from "react-redux";
 
-class App extends React.Component {
-  isLogged = true;
+class App extends React.Component {  
   render() {
-    if (!this.isLogged && this.props.location.pathname !== '/login') {
-        if(this.props.location.pathname !== '/') {
-            this.props.history.push('/login?returnUrl='+this.props.location.pathname)
-        } else {
-            this.props.history.push('/login')
+    var current = this.props.location.pathname;
+    var isLogged = this.props.isLogged;
+    if (isLogged || current === '/login') {
+        if (current === '/') {
+          this.props.history.push('/users')
         }
         return <div></div>
     } else {
-        return <div></div>
+      if(this.props.location.pathname !== '/') {
+          this.props.history.push('/login?returnUrl='+this.props.location.pathname)
+      } else {
+          this.props.history.push('/login')
+      }
+      return <div></div>
     }
   }
 }
-export default App
+
+const mapStateToProps = state => ({
+  isLogged: state.isLogged
+});
+
+const mapDispatchToProps = dispatch => ({});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App)
