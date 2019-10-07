@@ -1,7 +1,7 @@
 import React from 'react'
 
 class App extends React.Component {
-  isLogged = false;
+  isLogged = true;
   render() {
     if (!this.isLogged && this.props.location.pathname !== '/login') {
         if(this.props.location.pathname !== '/') {

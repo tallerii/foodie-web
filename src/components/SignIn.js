@@ -10,7 +10,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { useTheme } from '@material-ui/styles';
-import { Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 // import { Route, Link, BrowserRouter as Router, Switch } from 'react-router-dom'
 
 function Copyright() {
@@ -19,9 +19,9 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center" className={classes.copyright} >
       {'Copyright © '}
-      <Link color="inherit" href="http://taller-de-programacion-2.github.io">
+      <a color="inherit" href="http://taller-de-programacion-2.github.io">
         Taller de Programación II - 2c2019
-      </Link>{' '}
+      </a>{' '}
     </Typography>
   );
 }
@@ -122,7 +122,7 @@ export default function SignInSide() {
                 </Link>
                 <Grid container>
                 <Grid item xs>
-                    <Link href="#" variant="body2">
+                    <Link to="/" variant="body2">
                     ¿Olvidó su contraseña?
                     </Link>
                 </Grid>
