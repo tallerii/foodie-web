@@ -9,9 +9,3 @@ export default function configureStore(initialState) {
   const store = createStore(reducer, initialState, applyMiddleware(logger));
   return store;
 }
-
-export var isLogged = false;
-
-export function setLogged(value) {
-    isLogged = value;
-}

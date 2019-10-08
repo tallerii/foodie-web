@@ -1,20 +1,23 @@
 import React from 'react'
 import { connect } from "react-redux";
 
-class App extends React.Component {  
+class App extends React.Component {
+  loginPage = '/login';
+  homePage = '/user/new';
+
   render() {
     var current = this.props.location.pathname;
     var isLogged = this.props.isLogged;
-    if (isLogged || current === '/login') {
+    if (isLogged || current === this.loginPage) {
         if (current === '/') {
-          this.props.history.push('/users')
+          this.props.history.push(this.homePage)
         }
         return <div></div>
     } else {
       if(this.props.location.pathname !== '/') {
-          this.props.history.push('/login?returnUrl='+this.props.location.pathname)
+          this.props.history.push(this.loginPage+'?returnUrl='+this.props.location.pathname)
       } else {
-          this.props.history.push('/login')
+          this.props.history.push(this.loginPage)
       }
       return <div></div>
     }

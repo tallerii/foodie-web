@@ -9,23 +9,25 @@ import App from './components/App';
 import Login from './components/Login';
 import Users from './components/Users'
 import Contact from './components/Contact'
+import Dashboard from './components/Dashboard'
 import configureStore from './modules/store'
 import { Provider as ReduxProvider } from "react-redux";
+import ls from 'local-storage'
 
-const reduxStore = configureStore({ isLogged: false });
+const reduxStore = configureStore({ isLogged: ls.get('isLogged') || false });
 
 const theme = createMuiTheme({
     palette: {
         primary: {
-            light: '#9cff57',
-            main: '#64dd17',
-            dark: '#1faa00',
+            light: '#8bf6ff',
+            main: '#4fc3f7',
+            dark: '#0093c4',
             contrastText: '#000000',
         },
         secondary: {
-            light: '#33691e',
-            main: '#629749',
-            dark: '#003d00',
+            light: '#5e92f3',
+            main: '#1565c0',
+            dark: '#003c8f',
             contrastText: '#ffffff',
         },
     },
@@ -38,7 +40,8 @@ const routing = (
             <div>
                 <Route path="/" component={App} />
                 <Route path="/login" component={Login} />
-                <Route path="/users" component={Users} />
+                <Route path="/user/new" component={Users} />
+                <Route path="/home" component={Dashboard} />
                 <Route path="/contact" component={Contact} />
             </div>
             </Router>

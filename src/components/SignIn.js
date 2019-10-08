@@ -65,14 +65,13 @@ const useStyles = makeStyles(theme => ({
   copyright: {
     marginTop: '60px'
   },
-  formControlLabel: {
-
-  }
+  formControlLabel: {}
 }));
 
 export default function SignInSide(props) {
   const theme = useTheme();
   const classes = useStyles(theme);
+
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -112,7 +111,7 @@ export default function SignInSide(props) {
                 control={<Checkbox value="remember" className={classes.formControlLabel} />}
                 label="Recordar mi usuario"
                 />
-                <Link to="/users">
+                <Link to="/home">
                   <Button
                   type="submit"
                   fullWidth
