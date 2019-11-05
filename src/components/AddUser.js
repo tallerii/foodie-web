@@ -26,22 +26,13 @@ const classes = {
   }
 };
 
-class Users extends React.Component {  
+class AddUser extends React.Component {  
   logout = () => {
     this.props.logout();
   }
 
   render() {
     return (
-    <div style={classes.container}>
-      <CssBaseline />
-      <AppBar position="absolute" color="default" style={classes.appBar}>
-        <Toolbar>
-          <Typography variant="h6" color="inherit" noWrap onClick={this.logout} style={{cursor: 'pointer'}}>
-            Foodie
-          </Typography>
-        </Toolbar>
-      </AppBar>
       <main style={classes.layout}>
           <Typography component="h1" variant="h4" align="center">
             Alta de Usuario
@@ -120,7 +111,7 @@ class Users extends React.Component {
               />
             </Grid>
             <Grid item xs={12}>
-              <Link to="/home">
+              <Link to="/app">
                 <Button
                 type="submit"
                 fullWidth
@@ -133,7 +124,6 @@ class Users extends React.Component {
             </Grid>
           </Grid>
         </main>
-      </div>
     )}
 }
 
@@ -146,4 +136,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Users)
+)(AddUser)

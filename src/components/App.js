@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 
 class App extends React.Component {
   loginPage = '/login';
-  homePage = '/user/new';
+  homePage = '/app';
 
   render() {
     var current = this.props.location.pathname;
@@ -15,7 +15,8 @@ class App extends React.Component {
         return <div></div>
     } else {
       if(this.props.location.pathname !== '/') {
-          this.props.history.push(this.loginPage+'?returnUrl='+this.props.location.pathname)
+          // this.props.history.push(this.loginPage+'?returnUrl='+this.props.location.pathname)
+          this.props.history.push(this.loginPage)
       } else {
           this.props.history.push(this.loginPage)
       }

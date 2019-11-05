@@ -8,17 +8,26 @@ const defaultState = {
 
 const todoReducer = (state = defaultState, action) => {
   switch (action.type) {
+    case ACTIONS.Types.SET_STATE: {
+      let newState = _.cloneDeep(state);
+      newState[action.payload.key] = action.payload.value;
+      return newState;
+    }
+    case ACTIONS.Types.SET_STATES: {
+      let newState = _.cloneDeep(state);
+      action.payload.map(element => newState[element.key] = element.value)
+      return newState;
+    }
     case ACTIONS.Types.LOGIN: {
-        let newState = _.cloneDeep(state);
-        newState.isLogged = true;
-        ls.set('isLogged', true);
-        return newState;
+      return state;
     }
 
     case ACTIONS.Types.LOGOUT: {
         let newState = _.cloneDeep(state);
-        newState.isLogged = false;
         ls.set('isLogged', false);
+        ls.set('token', undefined);
+        newState.isLogged = false;
+        newState.token = undefined;
         return newState;
     }
 

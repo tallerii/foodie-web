@@ -7,14 +7,13 @@ import { ThemeProvider } from '@material-ui/styles';
 import { Route, BrowserRouter as Router } from 'react-router-dom'
 import App from './components/App';
 import Login from './components/Login';
-import Users from './components/Users'
 import Contact from './components/Contact'
 import Dashboard from './components/Dashboard'
-import configureStore from './modules/store'
 import { Provider as ReduxProvider } from "react-redux";
 import ls from 'local-storage'
+import configureStore from './modules/store'
 
-const reduxStore = configureStore({ isLogged: ls.get('isLogged') || false });
+const store = configureStore({ isLogged: ls.get('isLogged') || false, token: ls.get('token') || undefined });
 
 const theme = createMuiTheme({
     palette: {
@@ -34,14 +33,13 @@ const theme = createMuiTheme({
 });
 
 const routing = (
-    <ReduxProvider store={reduxStore}>
+    <ReduxProvider store={store}>
         <ThemeProvider theme={theme}>
             <Router>
             <div>
                 <Route path="/" component={App} />
                 <Route path="/login" component={Login} />
-                <Route path="/user/new" component={Users} />
-                <Route path="/home" component={Dashboard} />
+                <Route path="/app" component={Dashboard} />
                 <Route path="/contact" component={Contact} />
             </div>
             </Router>

@@ -11,7 +11,6 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { useTheme } from '@material-ui/styles';
 import { Link } from 'react-router-dom'
-// import { Route, Link, BrowserRouter as Router, Switch } from 'react-router-dom'
 
 function Copyright() {
   const theme = useTheme();
@@ -111,7 +110,7 @@ export default function SignInSide(props) {
                 control={<Checkbox value="remember" className={classes.formControlLabel} />}
                 label="Recordar mi usuario"
                 />
-                <Link to="/home">
+                {/* <Link to="/login"> */}
                   <Button
                   type="submit"
                   fullWidth
@@ -121,7 +120,7 @@ export default function SignInSide(props) {
                   >
                   Iniciar Sesión
                   </Button>
-                </Link>
+                {/* </Link> */}
                 <Grid container>
                 <Grid item xs>
                     <Link to="/" variant="body2">
