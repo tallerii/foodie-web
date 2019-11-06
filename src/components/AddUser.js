@@ -81,9 +81,6 @@ class AddUser extends React.Component {
   };
 
   isNotNull(value) {
-    if(!(value !== undefined && value !== null && value !== '')) {
-      console.log(value);
-    }
     return value !== undefined && value !== null && value !== '';
   }
 
