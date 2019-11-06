@@ -25,7 +25,6 @@ const useStyles = makeStyles(theme => ({
 
 export default function SimpleModal(props) {
   const classes = useStyles();
-  // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(true);
 
@@ -45,9 +44,9 @@ export default function SimpleModal(props) {
         onClose={handleClose}
       >
         <div style={modalStyle} className={classes.paper}>
-          <h2 id="simple-modal-title">Error</h2>
+          <h2 id="simple-modal-title">{props.title}</h2>
           <p id="simple-modal-description">
-            Debe completar todos los campos obligatorios
+            {props.message}
           </p>
         </div>
       </Modal>
