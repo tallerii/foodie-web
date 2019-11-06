@@ -26,7 +26,8 @@ class ClientList extends React.Component {
       items.push(<ListCard key={delivery.id} 
         title={delivery.properties.username}
         subtitle={delivery.properties.first_name + " " + delivery.properties.last_name}
-        description={ <span>{tipoUsuario}  <b>{premium}</b></span> } >
+        description={ <span>{tipoUsuario}  <b>{premium}</b></span> }
+        urlImage={"https://previews.123rf.com/images/alekseyvanin/alekseyvanin1704/alekseyvanin170400127/75320517-personne-ic%C3%B4ne-de-la-ligne-utilisateur-signe-de-vecteur-de-contour-pictogramme-lin%C3%A9aire-isol%C3%A9-sur-blanc-ill.jpg"} >
         </ListCard>)
     });
     return items;

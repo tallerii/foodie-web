@@ -30,6 +30,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import AddUser from './AddUser'
 import ClientList from './ClientList'
 import DeliveryList from './DeliveryList'
+import OrderList from './OrderList'
 import { connect } from "react-redux";
 import ACTIONS from "../modules/action";
 import {
@@ -193,12 +194,14 @@ export default connect(
         </ListItemIcon>
         <ListItemText primary="Pedidos" />
       </ListItem>
-      <ListItem button>
-        <ListItemIcon>
-          <ListIcon />
-        </ListItemIcon>
-        <ListItemText primary="Ver Pedidos" />
-      </ListItem>
+      <Link to={`${url}/orders`}>
+        <ListItem button>
+          <ListItemIcon>
+            <ListIcon />
+          </ListItemIcon>
+          <ListItemText primary="Ver Pedidos" />
+        </ListItem>
+      </Link>
       <Divider />
       <ListItem style={grayedListItem}>
         <ListItemIcon>
@@ -286,6 +289,9 @@ export default connect(
                   </Route> 
                   <Route path={`${path}/deliveries`}>
                       <DeliveryList/>
+                  </Route>
+                  <Route path={`${path}/orders`}>
+                      <OrderList/>
                   </Route>
               </Paper>
             </Grid>

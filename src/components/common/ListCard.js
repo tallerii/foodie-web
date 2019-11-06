@@ -56,6 +56,7 @@ export default function ListCard(props) {
     title: props.title,
     subtitle: props.subtitle,
     description: props.description,
+    urlImage: props.urlImage
   }
   
   return (
@@ -81,7 +82,7 @@ export default function ListCard(props) {
             <Hidden xsDown>
               <CardMedia
                 className={classes.cardMedia}
-                image="https://previews.123rf.com/images/alekseyvanin/alekseyvanin1704/alekseyvanin170400127/75320517-personne-ic%C3%B4ne-de-la-ligne-utilisateur-signe-de-vecteur-de-contour-pictogramme-lin%C3%A9aire-isol%C3%A9-sur-blanc-ill.jpg"
+                image={post.urlImage}
                 title="Image title"
               />
             </Hidden>
