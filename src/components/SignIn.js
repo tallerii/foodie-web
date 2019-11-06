@@ -106,10 +106,10 @@ export default function SignInSide(props) {
                 autoComplete="current-password"
                 onChange={(event) => props.handleChange(event) }
                 />
-                <FormControlLabel
+                {/* <FormControlLabel
                 control={<Checkbox value="remember" className={classes.formControlLabel} />}
                 label="Recordar mi usuario"
-                />
+                /> */}
                   <Button
                   type="submit"
                   fullWidth
@@ -121,9 +121,9 @@ export default function SignInSide(props) {
                   </Button>
                 <Grid container>
                 <Grid item xs>
-                    <Link to="/" variant="body2">
+                    {/* <Link to="/" variant="body2">
                     ¿Olvidó su contraseña?
-                    </Link>
+                    </Link> */}
                 </Grid>
                 </Grid>
                 <Box mt={5}>
