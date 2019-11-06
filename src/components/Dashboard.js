@@ -29,11 +29,13 @@ import ListIcon from '@material-ui/icons/List';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import AddUser from './AddUser'
 import ClientList from './ClientList'
+import DeliveryList from './DeliveryList'
 import { connect } from "react-redux";
 import ACTIONS from "../modules/action";
 import {
   Route,
   Link,
+  Redirect,
   useRouteMatch
 } from "react-router-dom";
 
@@ -168,12 +170,14 @@ export default connect(
           <ListItemText primary="Clientes" />
         </ListItem>
       </Link>
-      <ListItem button>
-        <ListItemIcon>
-          <DirectionsBikeIcon />
-        </ListItemIcon>
-        <ListItemText primary="Deliveries" />
-      </ListItem>
+      <Link to={`${url}/deliveries`}>
+        <ListItem button>
+          <ListItemIcon>
+            <DirectionsBikeIcon />
+          </ListItemIcon>
+          <ListItemText primary="Deliveries" />
+        </ListItem>
+      </Link>
       <Link to={`${url}/addUser`}>
         <ListItem button>
           <ListItemIcon>
@@ -223,6 +227,9 @@ export default connect(
     </div>
   );
 
+  if (props.isLogged === false)
+    return <Redirect to='/login' />
+  else
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -277,6 +284,9 @@ export default connect(
                   <Route path={`${path}/clients`}>
                       <ClientList/>
                   </Route> 
+                  <Route path={`${path}/deliveries`}>
+                      <DeliveryList/>
+                  </Route>
               </Paper>
             </Grid>
           </Grid>

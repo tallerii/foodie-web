@@ -27,13 +27,6 @@ class Login extends React.Component {
       handleChange={this.handleChange.bind(this)}
       ></SignInSide>)
     }
-    
-  // componentDidUpdate(prevProps){
-  //   console.log('componentDidUpdate');
-  //   console.log(prevProps);
-  //   console.log(this.state);
-  //   console.log(this.props);
-  // }
 }
 
 

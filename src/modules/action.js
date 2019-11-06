@@ -1,5 +1,5 @@
 import ls from 'local-storage'
-import { post } from '../services/base-service'
+import { get, post } from '../services/base-service'
 
 // types of action
 const Types = {
@@ -58,9 +58,58 @@ const logout = () => ({
     };
   }
 
+  function simpleGet(url) {
+    console.log('GET: ' + url);
+    return function(dispatch, getState) {
+      return get(url).then(
+        (data) => {
+            if(data.ok) {
+                let res = data.json()
+                // res.then(data => {
+                //     dispatch(setStates([{ key: 'token', value: data.token }, { key: 'isLogged', value: true } ]))
+                // })
+                return res;
+            } else {
+                // dispatch(setStates([{ key: 'token', value: undefined }, { key: 'isLogged', value: false } ]))
+            }
+        },
+        (error) => { throw error },
+      );
+    };
+  }
+
+  function simplePost(url, dataMap) {
+    console.log('POST: ' + url);
+    const formData  = new FormData();
+    let entries = Object.entries(dataMap);
+    entries.forEach(element => {
+        formData.append(element[0], element[1]);    
+    });
+    formData.FCMToken = "prueba";
+
+    return function(dispatch, getState) {
+      return post(url, formData).then(
+        (data) => {
+            if(data.ok) {
+                let res = data.json()
+                // res.then(data => {
+                //     dispatch(setStates([{ key: 'token', value: data.token }, { key: 'isLogged', value: true } ]))
+                // })
+                return res;
+            } else {
+                // dispatch(setStates([{ key: 'token', value: undefined }, { key: 'isLogged', value: false } ]))
+            }
+        },
+        (error) => { throw error },
+      );
+    };
+  }
+
 export default {
     setState,
     setStates,
+    simpleGet,
+    simplePost,
     login,
     logout,
     Types

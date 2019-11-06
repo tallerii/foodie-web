@@ -5,27 +5,27 @@ import ListCard from "./common/ListCard"
 import Grid from '@material-ui/core/Grid';
 
 class ClientList extends React.Component {
-  state = { clients: [] };
+  state = { deliveries: [] };
 
   constructor(props) {
     super(props);
-    this.getClients().then(
-      (data) => this.setState({ clients: data.results.features }),
+    this.getDeliveries().then(
+      (data) => this.setState({ deliveries: data.results.features }),
       (error) => console.log(error))
   }  
 
-  getClients = () => {
-    return this.props.getClients();
+  getDeliveries = () => {
+    return this.props.getDeliveries();
   }
 
-  listClients = () => {
+  listDeliveries = () => {
     let items = [];
-    this.state.clients.forEach(client => {
-      let tipoUsuario = client.properties.is_delivery ? "Delivery" : "Usuario";
-      let premium = client.properties.is_premium ? "PREMIUM": "";
-      items.push(<ListCard key={client.id} 
-        title={client.properties.username}
-        subtitle={client.properties.first_name + " " + client.properties.last_name}
+    this.state.deliveries.forEach(delivery => {
+      let tipoUsuario = delivery.properties.is_delivery ? "Delivery" : "Usuario";
+      let premium = delivery.properties.is_premium ? "PREMIUM": "";
+      items.push(<ListCard key={delivery.id} 
+        title={delivery.properties.username}
+        subtitle={delivery.properties.first_name + " " + delivery.properties.last_name}
         description={ <span>{tipoUsuario}  <b>{premium}</b></span> } >
         </ListCard>)
     });
@@ -35,9 +35,9 @@ class ClientList extends React.Component {
   render() {
     return (
       <div>  
-        <h1>Clientes</h1>
+        <h1>Deliveries</h1>
         <Grid container spacing={4}>
-          {this.listClients()}
+          {this.listDeliveries()}
         </Grid>
       </div>
     );
@@ -47,7 +47,7 @@ class ClientList extends React.Component {
 const mapStateToProps = state => ({});
 
 const mapDispatchToProps = dispatch => ({
-  getClients: () => dispatch(ACTIONS.simpleGet('/clients/'))
+  getDeliveries: () => dispatch(ACTIONS.simpleGet('/deliveries/'))
 });
 
 export default connect(

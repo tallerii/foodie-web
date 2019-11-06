@@ -110,7 +110,6 @@ export default function SignInSide(props) {
                 control={<Checkbox value="remember" className={classes.formControlLabel} />}
                 label="Recordar mi usuario"
                 />
-                {/* <Link to="/login"> */}
                   <Button
                   type="submit"
                   fullWidth
@@ -120,7 +119,6 @@ export default function SignInSide(props) {
                   >
                   Iniciar Sesión
                   </Button>
-                {/* </Link> */}
                 <Grid container>
                 <Grid item xs>
                     <Link to="/" variant="body2">
