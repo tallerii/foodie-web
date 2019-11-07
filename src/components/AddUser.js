@@ -75,8 +75,8 @@ class AddUser extends React.Component {
         { 
           is_premium: this.state.is_premium,
           is_delivery: this.state.is_delivery,
-          firstname: this.state.firstname,
-          lastname: this.state.lastname,
+          first_name: this.state.firstname,
+          last_name: this.state.lastname,
           username: this.state.username,
           password: this.state.password,
           email: this.state.email,
