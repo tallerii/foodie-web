@@ -133,7 +133,7 @@ class AddUser extends React.Component {
     return (
       <main style={classes.layout}>
           <Typography component="h1" variant="h4" align="center">
-            Alta de Usuario
+            Editar Usuario
           </Typography>
           <Typography variant="h6" gutterBottom>
             Información General

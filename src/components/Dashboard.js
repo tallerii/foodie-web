@@ -28,6 +28,7 @@ import BuildIcon from '@material-ui/icons/Build';
 import ListIcon from '@material-ui/icons/List';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import AddUser from './AddUser'
+import EditUser from './EditUser'
 import ClientList from './ClientList'
 import DeliveryList from './DeliveryList'
 import OrderList from './OrderList'
@@ -35,6 +36,7 @@ import { connect } from "react-redux";
 import ACTIONS from "../modules/action";
 import {
   Route,
+  Switch,
   Link,
   Redirect,
   useRouteMatch
@@ -128,8 +130,6 @@ const mapStateToProps = state => ({});
 const mapDispatchToProps = dispatch => ({
   logout: () => { 
     dispatch(ACTIONS.logout())
-    // dispatch(ACTIONS.setState('isLogged', false))
-    // dispatch(ACTIONS.setState('token', undefined))
   }
 });
 
@@ -179,7 +179,7 @@ export default connect(
           <ListItemText primary="Deliveries" />
         </ListItem>
       </Link>
-      <Link to={`${url}/addUser`}>
+      <Link to={`${url}/user/add`}>
         <ListItem button>
           <ListItemIcon>
             <AddIcon />
@@ -281,18 +281,26 @@ export default connect(
                       </Typography>
                     </Toolbar>
                   </AppBar>
-                  <Route path={`${path}/addUser`}>
-                      <AddUser/>
-                  </Route>
-                  <Route path={`${path}/clients`}>
-                      <ClientList/>
-                  </Route> 
-                  <Route path={`${path}/deliveries`}>
-                      <DeliveryList/>
-                  </Route>
-                  <Route path={`${path}/orders`}>
-                      <OrderList/>
-                  </Route>
+                  <Switch>  
+                    <Route path={`${path}/user/add`}>
+                        <AddUser/>
+                    </Route>
+                    <Route path={`${path}/clients/edit`}>
+                        <EditUser/>
+                    </Route>
+                    <Route path={`${path}/clients`}>
+                        <ClientList/>
+                    </Route>
+                    <Route path={`${path}/deliveries/edit`}>
+                        <EditUser/>
+                    </Route>
+                    <Route path={`${path}/deliveries`}>
+                        <DeliveryList/>
+                    </Route>
+                    <Route path={`${path}/orders`}>
+                        <OrderList/>
+                    </Route>
+                  </Switch>
               </Paper>
             </Grid>
           </Grid>

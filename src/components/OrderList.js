@@ -46,7 +46,7 @@ class OrderList extends React.Component {
 const mapStateToProps = state => ({});
 
 const mapDispatchToProps = dispatch => ({
-  listOrders: () => dispatch(ACTIONS.simpleGet('/orders/active/'))
+  listOrders: () => dispatch(ACTIONS.simpleGet('/orders/?status=in_progress'))
 });
 
 export default connect(
