@@ -1,5 +1,5 @@
 import ls from 'local-storage'
-import { get, post } from '../services/base-service'
+import { get, post, put } from '../services/base-service'
 
 // types of action
 const Types = {
@@ -65,12 +65,7 @@ const logout = () => ({
         (data) => {
             if(data.ok) {
                 let res = data.json()
-                // res.then(data => {
-                //     dispatch(setStates([{ key: 'token', value: data.token }, { key: 'isLogged', value: true } ]))
-                // })
                 return res;
-            } else {
-                // dispatch(setStates([{ key: 'token', value: undefined }, { key: 'isLogged', value: false } ]))
             }
         },
         (error) => { throw error },
@@ -92,12 +87,29 @@ const logout = () => ({
         (data) => {
             if(data.ok) {
                 let res = data.json()
-                // res.then(data => {
-                //     dispatch(setStates([{ key: 'token', value: data.token }, { key: 'isLogged', value: true } ]))
-                // })
                 return res;
-            } else {
-                // dispatch(setStates([{ key: 'token', value: undefined }, { key: 'isLogged', value: false } ]))
+            }
+        },
+        (error) => { throw error },
+      );
+    };
+  }
+
+  function simplePut(url, dataMap) {
+    console.log('PUT: ' + url);
+    const formData  = new FormData();
+    let entries = Object.entries(dataMap);
+    entries.forEach(element => {
+        formData.append(element[0], element[1]);    
+    });
+    formData.FCMToken = "FCMToken";
+
+    return function(dispatch, getState) {
+      return put(url, formData).then(
+        (data) => {
+            if(data.ok) {
+                let res = data.json()
+                return res;
             }
         },
         (error) => { throw error },
@@ -110,6 +122,7 @@ export default {
     setStates,
     simpleGet,
     simplePost,
+    simplePut,
     login,
     logout,
     Types

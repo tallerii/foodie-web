@@ -32,3 +32,12 @@ export function post(url, body) {
         body: body
     });
 }
+
+export function put(url, body) {
+    const token = ls.get('token');
+    return fetch(SERVER_URL + url, {
+        method: 'PUT',
+        body: body,
+        Authorization: `Token ${token}`
+    });
+}

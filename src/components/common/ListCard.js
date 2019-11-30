@@ -56,6 +56,7 @@ export default function ListCard(props) {
   const classes = useStyles(theme);
 
   const post = {
+    id: props.id,
     title: props.title,
     subtitle: props.subtitle,
     description: props.description,
@@ -66,7 +67,7 @@ export default function ListCard(props) {
   
   return (
     <Grid item key={post.title} xs={12} md={6}>
-      <Link to={`${url}/edit`}>
+      <Link to={`${url}/edit/${post.id}`}>
         <CardActionArea>
           <Card className={classes.card}>
             <div className={classes.cardDetails}>

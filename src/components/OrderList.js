@@ -44,7 +44,7 @@ class OrderList extends React.Component {
 
   handleChange = name => event => {
     this.setState({ ...this.state, [name]: event.target.checked });
-    if(name == 'orderSearchInProgress') {
+    if(name === 'orderSearchInProgress') {
       this.fetchOrders(event.target.checked);
     }
   };

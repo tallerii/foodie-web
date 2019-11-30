@@ -24,7 +24,8 @@ class ClientList extends React.Component {
       let tipoUsuario = client.properties.is_delivery ? "Delivery" : "Usuario";
       let premium = client.properties.is_premium ? "PREMIUM": "";
       items.push(
-        <ListCard key={client.id} 
+        <ListCard key={client.id}
+          id={client.id}
           title={client.properties.username}
           subtitle={client.properties.first_name + " " + client.properties.last_name}
           description={ <span>{tipoUsuario}  <b>{premium}</b></span> }

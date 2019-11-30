@@ -15,7 +15,6 @@ class App extends React.Component {
         return <div></div>
     } else {
       if(this.props.location.pathname !== '/') {
-          // this.props.history.push(this.loginPage+'?returnUrl='+this.props.location.pathname)
           this.props.history.push(this.loginPage)
       } else {
           this.props.history.push(this.loginPage)

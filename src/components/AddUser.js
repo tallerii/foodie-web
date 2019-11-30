@@ -34,7 +34,12 @@ const classes = {
 };
 
 class AddUser extends React.Component {
+  isEdition = false;
+  splittedURL = [];
+  currentURL = '';
+
   initialState = { 
+    id: '',
     is_premium: false, 
     is_delivery: false, 
     firstname: '',
@@ -46,10 +51,28 @@ class AddUser extends React.Component {
     showModal: false };
   state = this.initialState;
 
-  // constructor(props) {
-  //   super(props);
-  //   console.log(props);
-  // }
+  constructor(props) {
+    super(props);
+    let url = window.location.href;
+    this.currentURL = url;
+    this.splittedURL = url.split('/');
+    let action = this.splittedURL[this.splittedURL.length-2];
+    this.isEdition = (action === 'edit');
+  }
+  
+  componentDidMount() {
+    let userType = this.splittedURL[this.splittedURL.length-3];    
+    let userId = this.splittedURL[this.splittedURL.length-1];
+    if(this.isEdition) {
+      this.props.getOne('/' + userType + '/' + userId)
+      .then(
+        (data) => { 
+          this.userToState(data);
+        },
+        (error) => this.setState({modalTitle: 'Error', modalDescription: 'Ha ocurrido un error', showModal: true})
+      );
+    }
+  }
 
   createUserHandler = event => {
     event.preventDefault();
@@ -64,17 +87,11 @@ class AddUser extends React.Component {
       this.isNotNull(this.state.FCMToken)
     ) {
       let url = (this.state.is_delivery) ? '/deliveries' :'/clients';
-      this.props.addUser(
-        { 
-          is_premium: this.state.is_premium,
-          is_delivery: this.state.is_delivery,
-          first_name: this.state.firstname,
-          last_name: this.state.lastname,
-          username: this.state.username,
-          password: this.state.password,
-          email: this.state.email,
-          FCMToken: this.state.FCMToken
-        }, url
+      let action = (this.isEdition) ? this.props.updateUser : this.props.addUser; 
+      url = (this.isEdition) ? url + '/' + this.state.id : url
+      action(
+        this.stateToUser(),
+        url
         ).then(
         (data) => { 
           this.setState(this.initialState);
@@ -87,6 +104,34 @@ class AddUser extends React.Component {
     }
     
   };
+
+  stateToUser() {
+    return { 
+      is_premium: this.state.is_premium,
+      is_delivery: this.state.is_delivery,
+      first_name: this.state.firstname,
+      last_name: this.state.lastname,
+      username: this.state.username,
+      password: this.state.password,
+      email: this.state.email,
+      FCMToken: this.state.FCMToken
+    };
+  }
+
+  userToState(user) {
+    let properties = user.properties;
+    this.setState({ ...this.state, 
+      id: user.id || '',
+      is_premium: properties.is_premium || false,
+      is_delivery: properties.is_delivery || false,
+      firstname: properties.first_name || '',
+      lastname: properties.last_name || '',
+      username: properties.username || '',
+      password: properties.password || '',
+      email: properties.email || '',
+      FCMToken: properties.FCMToken || ''
+    });
+  }
 
   isNotNull(value) {
     return value !== undefined && value !== null && value !== '';
@@ -232,7 +277,7 @@ class AddUser extends React.Component {
               variant="contained"
               className={classes.submit}
               onClick={this.createUserHandler} >
-              Crear Usuario
+              {this.isEdition ? 'Editar' : 'Crear'} Usuario
               </Button>
             </Grid>
           </Grid>
@@ -244,7 +289,9 @@ class AddUser extends React.Component {
 const mapStateToProps = state => ({});
 
 const mapDispatchToProps = dispatch => ({
-  addUser: (dataMap, url) => dispatch(ACTIONS.simplePost(url, dataMap))
+  addUser: (dataMap, url) => dispatch(ACTIONS.simplePost(url, dataMap)),
+  updateUser: (dataMap, url) => dispatch(ACTIONS.simplePut(url, dataMap)),
+  getOne: (url) => dispatch(ACTIONS.simpleGet(url))
 });
 
 export default connect(

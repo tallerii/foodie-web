@@ -28,7 +28,6 @@ import BuildIcon from '@material-ui/icons/Build';
 import ListIcon from '@material-ui/icons/List';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import AddUser from './AddUser'
-import EditUser from './EditUser'
 import ClientList from './ClientList'
 import DeliveryList from './DeliveryList'
 import OrderList from './OrderList'
@@ -283,16 +282,16 @@ export default connect(
                   </AppBar>
                   <Switch>  
                     <Route path={`${path}/user/add`}>
-                        <AddUser/>
+                        <AddUser key="add"/>
                     </Route>
                     <Route path={`${path}/clients/edit`}>
-                        <EditUser/>
+                        <AddUser key="editCli"/>
                     </Route>
                     <Route path={`${path}/clients`}>
                         <ClientList/>
                     </Route>
                     <Route path={`${path}/deliveries/edit`}>
-                        <EditUser/>
+                        <AddUser key="editDel"/>
                     </Route>
                     <Route path={`${path}/deliveries`}>
                         <DeliveryList/>
