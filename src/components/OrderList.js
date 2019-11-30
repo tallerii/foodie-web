@@ -3,22 +3,26 @@ import { connect } from "react-redux";
 import ACTIONS from "../modules/action";
 import ListCard from "./common/ListCard"
 import Grid from '@material-ui/core/Grid';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 class OrderList extends React.Component {
-  state = { orders: [] };
+  state = { orders: [], orderSearchInProgress: true };
 
   constructor(props) {
     super(props);
-    this.getOrders().then(
-      (data) => this.setState({ orders: data.results.features }),
-      (error) => console.log(error))
+    this.fetchOrders(this.state.orderSearchInProgress);
   }  
 
-  getOrders = () => {
-    return this.props.listOrders();
+  fetchOrders(orderSearchInProgress) {
+    this.getOrders(orderSearchInProgress).then(
+      (data) => this.setState({ orders: data.results ? data.results.features : [] }),
+      (error) => console.log(error));
   }
 
-  listOrders = () => {
+  getOrders = (orderSearchInProgress) => this.props.listOrders(orderSearchInProgress)
+
+  renderOrders = () => {
     let items = [];
     this.state.orders.forEach(order => {
       items.push(<ListCard key={order.id} 
@@ -28,15 +32,49 @@ class OrderList extends React.Component {
         urlImage={"https://previews.123rf.com/images/tatianasun/tatianasun1703/tatianasun170300065/74003740-map-pointer-with-fast-food-icon-vector-isolated-location-sign-.jpg"}>
         </ListCard>)
     });
-    return items;
+   
+    if (items.length > 0) 
+    {
+      return items;
+    }
+    else {
+      return <h3 style={{'color': 'grey', 'width': '100%', 'textAlign': 'center'}}>-- No se encontraron resultados --</h3>
+    }
   }
 
-  render() {
+  handleChange = name => event => {
+    this.setState({ ...this.state, [name]: event.target.checked });
+    if(name == 'orderSearchInProgress') {
+      this.fetchOrders(event.target.checked);
+    }
+  };
+
+  render() {    
     return (
       <div>  
-        <h1>Pedidos Activos</h1>
+        <Grid container spacing={3}>
+          <Grid item xs={6}>
+            <h1>Pedidos    </h1>      
+          </Grid>
+          <Grid item xs={6} style={{'paddingTop': '35px'}} >
+            <FormControlLabel
+              control={
+              <Checkbox
+                checked={this.state.orderSearchInProgress}
+                onChange={this.handleChange('orderSearchInProgress')}
+                value="orderSearchInProgress"
+                inputProps={{
+                  'aria-label': 'indeterminate checkbox',
+                }}
+              />
+              }
+              label={ this.state.orderSearchInProgress ? "En progreso" : "Todos" }
+            />
+          </Grid>
+        </Grid>
+        
         <Grid container spacing={4}>
-          {this.listOrders()}
+          {this.renderOrders()}
         </Grid>
       </div>
     );
@@ -46,7 +84,7 @@ class OrderList extends React.Component {
 const mapStateToProps = state => ({});
 
 const mapDispatchToProps = dispatch => ({
-  listOrders: () => dispatch(ACTIONS.simpleGet('/orders/?status=in_progress'))
+  listOrders: (orderSearchInProgress) => dispatch(ACTIONS.simpleGet('/orders'+ ((orderSearchInProgress) ? '?status=in_progress' : '')))
 });
 
 export default connect(

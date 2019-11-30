@@ -9,9 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { useTheme } from '@material-ui/styles';
 import {
-  Route,
   Link,
-  Redirect,
   useRouteMatch
 } from "react-router-dom";
 
@@ -64,12 +62,12 @@ export default function ListCard(props) {
     urlImage: props.urlImage
   }
 
-  let { path, url } = useRouteMatch();
+  let { url } = useRouteMatch();
   
   return (
     <Grid item key={post.title} xs={12} md={6}>
       <Link to={`${url}/edit`}>
-        <CardActionArea component="a" href="#">
+        <CardActionArea>
           <Card className={classes.card}>
             <div className={classes.cardDetails}>
               <CardContent>

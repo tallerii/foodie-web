@@ -15,13 +15,6 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import SimpleModal from './common/SimpleModal'
 import { connect } from "react-redux";
 import ACTIONS from "../modules/action";
-import {
-  Route,
-  Switch,
-  Link,
-  Redirect,
-  useRouteMatch
-} from "react-router-dom";
 
 const classes = {
   layout: {
@@ -70,7 +63,7 @@ class AddUser extends React.Component {
       this.isNotNull(this.state.email) &&
       this.isNotNull(this.state.FCMToken)
     ) {
-      let url = (this.state.is_delivery) ? '/deliveries/' :'/clients/';
+      let url = (this.state.is_delivery) ? '/deliveries' :'/clients';
       this.props.addUser(
         { 
           is_premium: this.state.is_premium,

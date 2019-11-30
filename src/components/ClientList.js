@@ -50,7 +50,7 @@ class ClientList extends React.Component {
 const mapStateToProps = state => ({});
 
 const mapDispatchToProps = dispatch => ({
-  getClients: () => dispatch(ACTIONS.simpleGet('/clients/'))
+  getClients: () => dispatch(ACTIONS.simpleGet('/clients'))
 });
 
 export default connect(

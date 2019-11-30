@@ -31,7 +31,7 @@ const logout = () => ({
     const formData  = new FormData();
     formData.append('username', user);
     formData.append('password', pass);
-    let res = post('/token-auth/username/', formData);    
+    let res = post('/token-auth/username', formData);    
     return res;
   }
   
@@ -85,7 +85,7 @@ const logout = () => ({
     entries.forEach(element => {
         formData.append(element[0], element[1]);    
     });
-    formData.FCMToken = "prueba";
+    formData.FCMToken = "FCMToken";
 
     return function(dispatch, getState) {
       return post(url, formData).then(

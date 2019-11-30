@@ -48,7 +48,7 @@ class ClientList extends React.Component {
 const mapStateToProps = state => ({});
 
 const mapDispatchToProps = dispatch => ({
-  getDeliveries: () => dispatch(ACTIONS.simpleGet('/deliveries/'))
+  getDeliveries: () => dispatch(ACTIONS.simpleGet('/deliveries'))
 });
 
 export default connect(
