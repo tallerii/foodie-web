@@ -24,6 +24,7 @@ import BarChartIcon from '@material-ui/icons/BarChart';
 import AddIcon from '@material-ui/icons/Add';
 import PersonPinIcon from '@material-ui/icons/PersonPin';
 import DirectionsBikeIcon from '@material-ui/icons/DirectionsBike';
+import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import BuildIcon from '@material-ui/icons/Build';
 import ListIcon from '@material-ui/icons/List';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
@@ -31,6 +32,8 @@ import AddUser from './AddUser'
 import ClientList from './ClientList'
 import DeliveryList from './DeliveryList'
 import OrderList from './OrderList'
+import StaffList from './StaffList'
+import Stats from './Stats'
 import { connect } from "react-redux";
 import ACTIONS from "../modules/action";
 import {
@@ -178,6 +181,14 @@ export default connect(
           <ListItemText primary="Deliveries" />
         </ListItem>
       </Link>
+      <Link to={`${url}/staff`}>
+        <ListItem button>
+          <ListItemIcon>
+            <AccountBoxIcon />
+          </ListItemIcon>
+          <ListItemText primary="Staff" />
+        </ListItem>
+      </Link>
       <Link to={`${url}/user/add`}>
         <ListItem button>
           <ListItemIcon>
@@ -208,12 +219,14 @@ export default connect(
         </ListItemIcon>
         <ListItemText primary="Herramientas" />
       </ListItem>
-      <ListItem button>
-        <ListItemIcon>
-          <BarChartIcon />
-        </ListItemIcon>
-        <ListItemText primary="Estadísticas" />
-      </ListItem>
+      <Link to={`${url}/stats`}>
+        <ListItem button>
+          <ListItemIcon>
+            <BarChartIcon />
+          </ListItemIcon>
+          <ListItemText primary="Estadísticas" />
+        </ListItem>
+      </Link>
       <ListItem button>
         <ListItemIcon>
           <AttachMoneyIcon />
@@ -298,6 +311,12 @@ export default connect(
                     </Route>
                     <Route path={`${path}/orders`}>
                         <OrderList/>
+                    </Route>
+                    <Route path={`${path}/staff`}>
+                        <StaffList/>
+                    </Route>
+                    <Route path={`${path}/stats`}>
+                        <Stats/>
                     </Route>
                   </Switch>
               </Paper>

@@ -33,11 +33,13 @@ export function post(url, body) {
     });
 }
 
-export function put(url, body) {
+export function patch(url, body) {
     const token = ls.get('token');
     return fetch(SERVER_URL + url, {
-        method: 'PUT',
-        body: body,
-        Authorization: `Token ${token}`
+        method: 'PATCH',
+        headers: {
+            Authorization: `Token ${token}`
+        },
+        body: body
     });
 }

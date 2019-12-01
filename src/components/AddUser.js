@@ -290,7 +290,7 @@ const mapStateToProps = state => ({});
 
 const mapDispatchToProps = dispatch => ({
   addUser: (dataMap, url) => dispatch(ACTIONS.simplePost(url, dataMap)),
-  updateUser: (dataMap, url) => dispatch(ACTIONS.simplePut(url, dataMap)),
+  updateUser: (dataMap, url) => dispatch(ACTIONS.simplePatch(url, dataMap)),
   getOne: (url) => dispatch(ACTIONS.simpleGet(url))
 });
 

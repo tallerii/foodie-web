@@ -27,7 +27,7 @@ class OrderList extends React.Component {
     this.state.orders.forEach(order => {
       items.push(<ListCard key={order.id} 
         title={order.properties.client_user.properties.first_name + order.properties.client_user.properties.last_name}
-        subtitle={order.properties.delivery_user.properties.first_name + order.properties.delivery_user.properties.last_name}
+        subtitle={'Entrega: ' + order.properties.delivery_user.properties.first_name + order.properties.delivery_user.properties.last_name}
         description={order.properties.notes}
         urlImage={"https://previews.123rf.com/images/tatianasun/tatianasun1703/tatianasun170300065/74003740-map-pointer-with-fast-food-icon-vector-isolated-location-sign-.jpg"}>
         </ListCard>)

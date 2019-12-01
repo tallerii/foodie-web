@@ -21,7 +21,7 @@ class ClientList extends React.Component {
   listDeliveries = () => {
     let items = [];
     this.state.deliveries.forEach(delivery => {
-      let tipoUsuario = delivery.properties.is_delivery ? "Delivery" : "Usuario";
+      let tipoUsuario = "Delivery";
       let premium = delivery.properties.is_premium ? "PREMIUM": "";
       items.push(<ListCard key={delivery.id} 
         id={delivery.id}

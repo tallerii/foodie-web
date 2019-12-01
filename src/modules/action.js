@@ -1,5 +1,5 @@
 import ls from 'local-storage'
-import { get, post, put } from '../services/base-service'
+import { get, post, patch } from '../services/base-service'
 
 // types of action
 const Types = {
@@ -95,8 +95,8 @@ const logout = () => ({
     };
   }
 
-  function simplePut(url, dataMap) {
-    console.log('PUT: ' + url);
+  function simplePatch(url, dataMap) {
+    console.log('Patch: ' + url);
     const formData  = new FormData();
     let entries = Object.entries(dataMap);
     entries.forEach(element => {
@@ -105,7 +105,7 @@ const logout = () => ({
     formData.FCMToken = "FCMToken";
 
     return function(dispatch, getState) {
-      return put(url, formData).then(
+      return patch(url, formData).then(
         (data) => {
             if(data.ok) {
                 let res = data.json()
@@ -122,7 +122,7 @@ export default {
     setStates,
     simpleGet,
     simplePost,
-    simplePut,
+    simplePatch,
     login,
     logout,
     Types
