@@ -14,6 +14,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import SimpleModal from './common/SimpleModal'
 import { connect } from "react-redux";
 import ACTIONS from "../modules/action";
@@ -50,9 +51,11 @@ class AddUser extends React.Component {
     username: '',
     password: '',
     email: '',
-    FCMToken: 'FakeToken',
+    FCMToken: '-',
     showModal: false,
-    userType: '' };
+    userType: '',
+    balance: 0,
+    initialBalance: 0 };
   state = this.initialState;
 
   constructor(props) {
@@ -75,6 +78,18 @@ class AddUser extends React.Component {
         },
         (error) => this.setState({modalTitle: 'Error', modalDescription: 'Ha ocurrido un error', showModal: true})
       );
+      if (this.userType == 'deliveries') {
+        this.props.getOne('/' + this.userType + '/' + userId + '/balance')
+        .then(
+          (data) => { 
+            this.setState({ ...this.state, 
+              balance: (data && data.balance) ? data.balance : 0,
+              initialBalance: (data && data.balance) ? data.balance : 0
+            })
+          },
+          (error) => this.setState({modalTitle: 'Error', modalDescription: 'Ha ocurrido un error', showModal: true})
+        );
+      }
     }
   }
 
@@ -82,10 +97,8 @@ class AddUser extends React.Component {
     event.preventDefault();
     if(
       this.isNotNull(this.state.is_premium) &&
-      this.isNotNull(this.state.is_delivery) &&
       this.isNotNull(this.state.firstname) &&
       this.isNotNull(this.state.lastname) &&
-      this.isNotNull(this.state.username) &&
       (this.isEdition || this.isNotNull(this.state.password)) &&
       this.isNotNull(this.state.email) &&
       this.isNotNull(this.state.FCMToken) &&
@@ -111,6 +124,37 @@ class AddUser extends React.Component {
       );
     } else {
       this.setState({modalTitle: 'Error', modalDescription: 'Debe completar todos los campos obligatorios', showModal: true});
+    }
+    
+  };
+
+  updateBalanceHandler = event => {
+    event.preventDefault();
+    if(
+      this.isNotNull(this.state.balance)
+    ) {
+      let urlType = '/deliveries';
+      let url = '/' + this.userType;
+      url += '/payment'
+      this.props.postPayment(
+        {
+          pk: this.state.id,
+          payment: this.state.initialBalance - this.state.balance
+        },
+        url
+        ).then(
+        (data) => { 
+          if (data) {
+            this.setState({modalTitle: 'Éxito', modalDescription: 'Se ha actualizado el balance.', showModal: true});
+            window.location.reload();
+          } else {
+            this.setState({modalTitle: 'Error', modalDescription: 'Ha ocurrido un error al realizar el pago', showModal: true});
+          }
+        },
+        (error) => this.setState({modalTitle: 'Error', modalDescription: 'Ha ocurrido un error al realizar el pago', showModal: true})
+      );
+    } else {
+      this.setState({modalTitle: 'Error', modalDescription: 'Debe completar el campo Balance', showModal: true});
     }
     
   };
@@ -284,6 +328,7 @@ class AddUser extends React.Component {
             {
             (this.isEdition && this.userType == 'deliveries') ? (
               <Grid item xs={12} sm={6}>
+                <span style={{'verticalAlign': 'bottom'}}><AttachMoneyIcon/></span>
                 <TextField
                   style={{'width': '50%'}}
                   id="balance"
@@ -296,7 +341,7 @@ class AddUser extends React.Component {
                 style={{'width': '40%', 'marginTop': '10px', 'marginLeft': '10px', 'backgroundColor': '#4fc3f7'}}
                 type="submit"
                 variant="contained"
-                onClick={this.createUserHandler} >
+                onClick={this.updateBalanceHandler} >
                 Actualizar Balance
                 </Button>
               </Grid> 
@@ -323,7 +368,8 @@ const mapStateToProps = state => ({});
 const mapDispatchToProps = dispatch => ({
   addUser: (dataMap, url) => dispatch(ACTIONS.simplePost(url, dataMap)),
   updateUser: (dataMap, url) => dispatch(ACTIONS.simplePatch(url, dataMap)),
-  getOne: (url) => dispatch(ACTIONS.simpleGet(url))
+  getOne: (url) => dispatch(ACTIONS.simpleGet(url)),
+  postPayment: (dataMap, url) => dispatch(ACTIONS.simplePost(url, dataMap))
 });
 
 export default connect(

@@ -27,10 +27,23 @@ export function getById(url, id) {
 }
 
 export function post(url, body) {
-    return fetch(SERVER_URL + url, {
+    const token = ls.get('token');
+    let payload = {
+        method: 'POST',
+        body: body,
+        headers: {
+            Authorization: `Token ${token}`
+        }
+    };
+    return fetch(SERVER_URL + url, payload);
+}
+
+export function postWithoutToken(url, body) {
+    let payload = {
         method: 'POST',
         body: body
-    });
+    };
+    return fetch(SERVER_URL + url, payload);
 }
 
 export function patch(url, body) {

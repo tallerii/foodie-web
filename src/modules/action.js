@@ -1,5 +1,5 @@
 import ls from 'local-storage'
-import { get, post, patch } from '../services/base-service'
+import { get, post, postWithoutToken, patch } from '../services/base-service'
 
 // types of action
 const Types = {
@@ -31,7 +31,7 @@ const logout = () => ({
     const formData  = new FormData();
     formData.append('username', user);
     formData.append('password', pass);
-    let res = post('/token-auth/username', formData);    
+    let res = postWithoutToken('/token-auth/username', formData);    
     return res;
   }
   
