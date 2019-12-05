@@ -3,7 +3,9 @@ import { connect } from "react-redux";
 import ACTIONS from "../modules/action";
 import ListCard from "./common/ListCard"
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
+import Typography from '@material-ui/core/Typography';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 class OrderList extends React.Component {
@@ -15,9 +17,14 @@ class OrderList extends React.Component {
   }  
 
   fetchOrders(orderSearchInProgress, pageNum) {
+    this.setState({ orders: [] });
     this.getOrders(orderSearchInProgress, pageNum).then(
       (data) => this.setState({ orders: data ? data.results : [] }),
-      (error) => console.log(error));
+      (error) => { 
+        this.setState({ orders: [] });
+        console.log(error);
+        }
+      )
   }
 
   getOrders = (orderSearchInProgress, pageNum) => this.props.listOrders(orderSearchInProgress, pageNum)
@@ -52,13 +59,15 @@ class OrderList extends React.Component {
   };
 
   next() {
-    // this.setState({ ...this.state, pageNum: (this.state.pageNum + 1) });
-    // this.fetchOrders(this.state.orderSearchInProgress, this.state.pageNum);
+    this.fetchOrders(this.state.orderSearchInProgress, this.state.pageNum + 1);
+    this.setState({ ...this.state, pageNum: (this.state.pageNum + 1) });
   }
 
   previous() {
-    // this.setState({ ...this.state, pageNum: (this.state.pageNum - 1) });
-    // this.fetchOrders(this.state.orderSearchInProgress, this.state.pageNum);
+    if (this.state.pageNum > 1) {
+      this.fetchOrders(this.state.orderSearchInProgress, this.state.pageNum - 1);
+      this.setState({ ...this.state, pageNum: (this.state.pageNum - 1) });
+    }
   }
 
   render() {    
@@ -66,7 +75,7 @@ class OrderList extends React.Component {
       <div>  
         <Grid container spacing={3}>
           <Grid item xs={6}>
-            <h1>Pedidos    </h1>      
+            <h1>Pedidos</h1>      
           </Grid>
           <Grid item xs={6} style={{'paddingTop': '35px'}} >
             <FormControlLabel
@@ -88,10 +97,13 @@ class OrderList extends React.Component {
         <Grid container spacing={4}>
           {this.renderOrders()}
         </Grid>
-        {/* <Grid container spacing={4}>
-          <Button>Anterior</Button>
-          <Button onClick={this.next()}>Siguiente</Button>
-        </Grid> */}
+        <Grid container spacing={4}>
+          <Button onClick={() => { this.previous() }}>Anterior</Button>
+          <Typography style={{'paddingTop': '6px'}}>
+            ({this.state.pageNum})
+          </Typography>
+          <Button onClick={() => { this.next() }}>Siguiente</Button>
+        </Grid>
       </div>
     );
   }
