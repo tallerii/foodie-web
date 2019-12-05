@@ -55,7 +55,8 @@ class AddUser extends React.Component {
     showModal: false,
     userType: '',
     balance: 0,
-    initialBalance: 0 };
+    initialBalance: 0,
+    reputation: 0 };
   state = this.initialState;
 
   constructor(props) {
@@ -167,7 +168,8 @@ class AddUser extends React.Component {
       last_name: this.state.lastname,
       username: this.state.email,
       email: this.state.email,
-      FCMToken: this.state.FCMToken
+      FCMToken: this.state.FCMToken,
+      reputation: this.state.reputation
     };
     if (!this.isEdition) {
       res.password = this.state.password;
@@ -188,7 +190,8 @@ class AddUser extends React.Component {
       password: properties.password || '',
       email: properties.username || '',
       FCMToken: properties.FCMToken || '',
-      userType: userType
+      userType: userType,
+      reputation: properties.reputation || 0
     });
   }
 
@@ -265,6 +268,17 @@ class AddUser extends React.Component {
                 name="email"
                 label="Correo Electrónico"
                 value={this.state.email}
+                onChange={(event) => this.handleChange(event)}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                required
+                id="reputation"
+                name="reputation"
+                label="Reputación"
+                value={this.state.reputation}
                 onChange={(event) => this.handleChange(event)}
                 fullWidth
               />
