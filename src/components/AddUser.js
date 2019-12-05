@@ -305,6 +305,7 @@ class AddUser extends React.Component {
                   value={this.state.userType}
                   name="userType"
                   onChange={this.handleChange}
+                  disabled={this.isEdition}
                 >
                   <MenuItem value={'Cliente'}>Cliente</MenuItem>
                   <MenuItem value={'Delivery'}>Delivery</MenuItem>
