@@ -34,8 +34,8 @@ class OrderList extends React.Component {
     this.state.orders.forEach(order => {
       items.push(<ListCard key={order.id} 
         id={order.id}
-        title={order.client_user.properties.first_name + order.client_user.properties.last_name}
-        subtitle={'Entrega: ' + order.delivery_user.properties.first_name + order.delivery_user.properties.last_name}
+        title={order.client_user.properties.first_name + order.client_user.properties.last_name + ' | ' + 'Entrega: ' + order.delivery_user.properties.first_name + order.delivery_user.properties.last_name}
+        subtitle={'$'+order.price+' + $'+order.delivery_price}
         description={order.notes}
         editable={false}
         urlImage={"https://previews.123rf.com/images/tatianasun/tatianasun1703/tatianasun170300065/74003740-map-pointer-with-fast-food-icon-vector-isolated-location-sign-.jpg"}>
