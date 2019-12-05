@@ -32,14 +32,16 @@ class OrderList extends React.Component {
   renderOrders = () => {
     let items = [];
     this.state.orders.forEach(order => {
+      try {
       items.push(<ListCard key={order.id} 
         id={order.id}
         title={order.notes}
         subtitle={'$'+order.price+' + $'+order.delivery_price}
-        description={'Pide: '+order.client_user.properties.first_name + order.client_user.properties.last_name + ' | ' + 'Entrega: ' + order.delivery_user.properties.first_name + order.delivery_user.properties.last_name}
+        description={'Pide: '+ order.client_user.properties.first_name + order.client_user.properties.last_name + ' | ' + 'Entrega: ' + order.delivery_user.properties.first_name + order.delivery_user.properties.last_name}
         editable={false}
         urlImage={"https://previews.123rf.com/images/tatianasun/tatianasun1703/tatianasun170300065/74003740-map-pointer-with-fast-food-icon-vector-isolated-location-sign-.jpg"}>
         </ListCard>)
+      } catch (e) {}
     });
    
     if (items.length > 0) 
