@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 class OrderList extends React.Component {
-  state = { pageNum: 1, orders: [], orderSearchInProgress: true };
+  state = { pageNum: 1, orders: [], orderSearchInProgress: false };
 
   constructor(props) {
     super(props);
