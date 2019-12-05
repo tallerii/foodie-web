@@ -8,6 +8,8 @@ import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Input from '@material-ui/core/Input';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import Visibility from '@material-ui/icons/Visibility';
@@ -37,6 +39,7 @@ class AddUser extends React.Component {
   isEdition = false;
   splittedURL = [];
   currentURL = '';
+  userType = '';
 
   initialState = { 
     id: '',
@@ -48,7 +51,8 @@ class AddUser extends React.Component {
     password: '',
     email: '',
     FCMToken: 'FakeToken',
-    showModal: false };
+    showModal: false,
+    userType: '' };
   state = this.initialState;
 
   constructor(props) {
@@ -61,10 +65,10 @@ class AddUser extends React.Component {
   }
   
   componentDidMount() {
-    let userType = this.splittedURL[this.splittedURL.length-3];    
+    this.userType = this.splittedURL[this.splittedURL.length-3];    
     let userId = this.splittedURL[this.splittedURL.length-1];
     if(this.isEdition) {
-      this.props.getOne('/' + userType + '/' + userId)
+      this.props.getOne('/' + this.userType + '/' + userId)
       .then(
         (data) => { 
           this.userToState(data);
@@ -82,11 +86,13 @@ class AddUser extends React.Component {
       this.isNotNull(this.state.firstname) &&
       this.isNotNull(this.state.lastname) &&
       this.isNotNull(this.state.username) &&
-      this.isNotNull(this.state.password) &&
+      (this.isEdition || this.isNotNull(this.state.password)) &&
       this.isNotNull(this.state.email) &&
-      this.isNotNull(this.state.FCMToken)
+      this.isNotNull(this.state.FCMToken) &&
+      this.isNotNull(this.state.userType)
     ) {
-      let url = (this.state.is_delivery) ? '/deliveries' :'/clients';
+      let urlType = (this.state.userType === 'Delivery') ? '/deliveries' : (this.state.userType === 'Cliente') ? '/clients' : '/staffs';
+      let url = (this.isEdition) ? '/' + this.userType : urlType;
       let action = (this.isEdition) ? this.props.updateUser : this.props.addUser; 
       url = (this.isEdition) ? url + '/' + this.state.id : url
       action(
@@ -94,8 +100,12 @@ class AddUser extends React.Component {
         url
         ).then(
         (data) => { 
-          this.setState(this.initialState);
-          this.setState({modalTitle: 'Éxito', modalDescription: 'El usuario ha sido creado', showModal: true});
+          if (data) {
+            this.setState(this.initialState);
+            this.setState({modalTitle: 'Éxito', modalDescription: 'El usuario ha sido ' + ((this.isEdition) ? 'modificado' : 'creado'), showModal: true});
+          } else {
+            this.setState({modalTitle: 'Error', modalDescription: 'Ha ocurrido un error', showModal: true});
+          }
         },
         (error) => this.setState({modalTitle: 'Error', modalDescription: 'Ha ocurrido un error', showModal: true})
       );
@@ -106,20 +116,24 @@ class AddUser extends React.Component {
   };
 
   stateToUser() {
-    return { 
+    let res = { 
       is_premium: this.state.is_premium,
       is_delivery: this.state.is_delivery,
       first_name: this.state.firstname,
       last_name: this.state.lastname,
-      username: this.state.username,
-      password: this.state.password,
+      username: this.state.email,
       email: this.state.email,
       FCMToken: this.state.FCMToken
     };
+    if (!this.isEdition) {
+      res.password = this.state.password;
+    }
+    return res;
   }
 
   userToState(user) {
     let properties = user.properties;
+    let userType = (this.userType === 'clients') ? 'Cliente' : (this.userType === 'deliveries') ? 'Delivery' : 'Staff';
     this.setState({ ...this.state, 
       id: user.id || '',
       is_premium: properties.is_premium || false,
@@ -128,8 +142,9 @@ class AddUser extends React.Component {
       lastname: properties.last_name || '',
       username: properties.username || '',
       password: properties.password || '',
-      email: properties.email || '',
-      FCMToken: properties.FCMToken || ''
+      email: properties.username || '',
+      FCMToken: properties.FCMToken || '',
+      userType: userType
     });
   }
 
@@ -167,11 +182,11 @@ class AddUser extends React.Component {
       }
       return <div></div>;
     }
-    
+       
     return (
       <main style={classes.layout}>
           <Typography component="h1" variant="h4" align="center">
-            Alta de Usuario
+          {this.isEdition ? 'Edición' : 'Alta'} de Usuario
           </Typography>
           <Typography variant="h6" gutterBottom>
             Información General
@@ -202,17 +217,6 @@ class AddUser extends React.Component {
             <Grid item xs={12} sm={6}>
               <TextField
                 required
-                id="username"
-                name="username"
-                label="Nombre de Usuario"
-                value={this.state.username}
-                onChange={(event) => this.handleChange(event)}
-                fullWidth
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
                 id="email"
                 name="email"
                 label="Correo Electrónico"
@@ -221,31 +225,51 @@ class AddUser extends React.Component {
                 fullWidth
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <FormControl style={classes.passwordForm}>
-                <InputLabel htmlFor="password">Contraseña</InputLabel>
-                <Input
-                  id="password"
-                  name="password"
-                  type={this.state.showPassword ? 'text' : 'password'}
-                  value={this.state.password}
-                  onChange={(event) => this.handleChange(event)}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="cambiar visibilidad password"
-                        onClick={this.handleClickShowPassword}
-                        onMouseDown={this.handleMouseDownPassword}
-                      >
-                        {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                />
+            {
+            !this.isEdition ? (
+              <Grid item xs={12} sm={6} key="passElement">
+                <FormControl style={classes.passwordForm}>
+                  <InputLabel htmlFor="password">Contraseña</InputLabel>
+                  <Input
+                    id="password"
+                    name="password"
+                    type={this.state.showPassword ? 'text' : 'password'}
+                    value={this.state.password}
+                    onChange={(event) => this.handleChange(event)}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="cambiar visibilidad password"
+                          onClick={this.handleClickShowPassword}
+                          onMouseDown={this.handleMouseDownPassword}
+                        >
+                          {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  />
+                </FormControl>
+              </Grid> 
+            ) : <div></div>
+            }
+            <Grid item xs={6} sm={3}>
+              <FormControl style={{'margin': 'theme.spacing(1)', 'width': '100%'}}>
+                <InputLabel id="demo-simple-select-label">Tipo de Usuario</InputLabel>
+                <Select
+                  id="demo-simple-select"
+                  placeholder={"Tipo de Usuario"}
+                  value={this.state.userType}
+                  name="userType"
+                  onChange={this.handleChange}
+                >
+                  <MenuItem value={'Cliente'}>Cliente</MenuItem>
+                  <MenuItem value={'Delivery'}>Delivery</MenuItem>
+                  <MenuItem value={'Staff'}>Staff</MenuItem>
+                </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={6} sm={3}>
-            <FormControlLabel
+            <Grid item xs={6} sm={3} style={{'width': '100%', 'textAlign': 'center'}}>
+            <FormControlLabel style={{'paddingTop': '10px'}}
               control={<Checkbox
                   name="is_premium"
                   checked={this.state.is_premium}
@@ -257,19 +281,27 @@ class AddUser extends React.Component {
               label="Premium"
               />
             </Grid>
-            <Grid item xs={6} sm={3}>
-            <FormControlLabel
-              control={<Checkbox
-                  name="is_delivery"
-                  checked={this.state.is_delivery}
-                  onChange={this.handleCheckboxChange('is_delivery')}
-                  value="is_delivery"
-                  color="primary"
-                />
-              }
-              label="Delivery"
-            />
-            </Grid>
+            {
+            (this.isEdition && this.userType == 'deliveries') ? (
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  style={{'width': '50%'}}
+                  id="balance"
+                  name="balance"
+                  label="Balance"
+                  value={this.state.balance}
+                  onChange={(event) => this.handleChange(event)}
+                  />
+                <Button
+                style={{'width': '40%', 'marginTop': '10px', 'marginLeft': '10px', 'backgroundColor': '#4fc3f7'}}
+                type="submit"
+                variant="contained"
+                onClick={this.createUserHandler} >
+                Actualizar Balance
+                </Button>
+              </Grid> 
+            ) : <div></div>
+            }
             <Grid item xs={12}>
               <Button
               type="submit"
@@ -277,7 +309,7 @@ class AddUser extends React.Component {
               variant="contained"
               className={classes.submit}
               onClick={this.createUserHandler} >
-              {this.isEdition ? 'Editar' : 'Crear'} Usuario
+                {this.isEdition ? 'Editar' : 'Crear'} Usuario
               </Button>
             </Grid>
           </Grid>

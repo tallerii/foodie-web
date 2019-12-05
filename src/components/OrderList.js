@@ -7,28 +7,30 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 class OrderList extends React.Component {
-  state = { orders: [], orderSearchInProgress: true };
+  state = { pageNum: 1, orders: [], orderSearchInProgress: true };
 
   constructor(props) {
     super(props);
-    this.fetchOrders(this.state.orderSearchInProgress);
+    this.fetchOrders(this.state.orderSearchInProgress, this.state.pageNum);
   }  
 
-  fetchOrders(orderSearchInProgress) {
-    this.getOrders(orderSearchInProgress).then(
-      (data) => this.setState({ orders: data.results ? data.results.features : [] }),
+  fetchOrders(orderSearchInProgress, pageNum) {
+    this.getOrders(orderSearchInProgress, pageNum).then(
+      (data) => this.setState({ orders: data ? data.results : [] }),
       (error) => console.log(error));
   }
 
-  getOrders = (orderSearchInProgress) => this.props.listOrders(orderSearchInProgress)
+  getOrders = (orderSearchInProgress, pageNum) => this.props.listOrders(orderSearchInProgress, pageNum)
 
   renderOrders = () => {
     let items = [];
     this.state.orders.forEach(order => {
       items.push(<ListCard key={order.id} 
-        title={order.properties.client_user.properties.first_name + order.properties.client_user.properties.last_name}
-        subtitle={'Entrega: ' + order.properties.delivery_user.properties.first_name + order.properties.delivery_user.properties.last_name}
-        description={order.properties.notes}
+        id={order.id}
+        title={order.client_user.properties.first_name + order.client_user.properties.last_name}
+        subtitle={'Entrega: ' + order.delivery_user.properties.first_name + order.delivery_user.properties.last_name}
+        description={order.notes}
+        editable={false}
         urlImage={"https://previews.123rf.com/images/tatianasun/tatianasun1703/tatianasun170300065/74003740-map-pointer-with-fast-food-icon-vector-isolated-location-sign-.jpg"}>
         </ListCard>)
     });
@@ -44,10 +46,20 @@ class OrderList extends React.Component {
 
   handleChange = name => event => {
     this.setState({ ...this.state, [name]: event.target.checked });
-    if(name === 'orderSearchInProgress') {
-      this.fetchOrders(event.target.checked);
+    if(name === 'orderSearchInProgress' || name === 'pageNum') {
+      this.fetchOrders(event.target.checked, this.state.pageNum);
     }
   };
+
+  next() {
+    // this.setState({ ...this.state, pageNum: (this.state.pageNum + 1) });
+    // this.fetchOrders(this.state.orderSearchInProgress, this.state.pageNum);
+  }
+
+  previous() {
+    // this.setState({ ...this.state, pageNum: (this.state.pageNum - 1) });
+    // this.fetchOrders(this.state.orderSearchInProgress, this.state.pageNum);
+  }
 
   render() {    
     return (
@@ -76,6 +88,10 @@ class OrderList extends React.Component {
         <Grid container spacing={4}>
           {this.renderOrders()}
         </Grid>
+        {/* <Grid container spacing={4}>
+          <Button>Anterior</Button>
+          <Button onClick={this.next()}>Siguiente</Button>
+        </Grid> */}
       </div>
     );
   }
@@ -84,7 +100,7 @@ class OrderList extends React.Component {
 const mapStateToProps = state => ({});
 
 const mapDispatchToProps = dispatch => ({
-  listOrders: (orderSearchInProgress) => dispatch(ACTIONS.simpleGet('/orders'+ ((orderSearchInProgress) ? '?status=in_progress' : '')))
+  listOrders: (orderSearchInProgress, pageNum) => dispatch(ACTIONS.simpleGet('/orders'+ (((orderSearchInProgress) ? '?status=in_progress&page=' : '?page=') + (pageNum))))
 });
 
 export default connect(

@@ -29,7 +29,8 @@ class StaffList extends React.Component {
           title={staff.properties.username}
           subtitle={staff.properties.first_name + " " + staff.properties.last_name}
           description={ <span>{tipoUsuario}  <b>{premium}</b></span> }
-          urlImage={"https://previews.123rf.com/images/alekseyvanin/alekseyvanin1704/alekseyvanin170400127/75320517-personne-ic%C3%B4ne-de-la-ligne-utilisateur-signe-de-vecteur-de-contour-pictogramme-lin%C3%A9aire-isol%C3%A9-sur-blanc-ill.jpg"} >
+          editable={true}
+          urlImage={"https://www.creativefabrica.com/wp-content/uploads/2018/12/Office-Workers-Icon-by-Zafreeloicon-9-580x386.jpg"} >
         </ListCard>
       )
     });

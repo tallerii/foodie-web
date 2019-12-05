@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import ACTIONS from "../modules/action";
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
@@ -93,15 +92,7 @@ class Stats extends React.Component {
                     {this.state.stats.users}
                   </Typography>
                 </div>
-                {/* <Typography variant="subtitle1" align="center">
-                  ABC
-                </Typography> */}
               </CardContent>
-              {/* <CardActions>
-                <Button fullWidth color="primary">
-                  DEFGHIJK
-                </Button>
-              </CardActions> */}
             </Card>
           </Grid>
 
@@ -120,14 +111,8 @@ class Stats extends React.Component {
                     {this.state.stats.orders_delivered}
                   </Typography>
                 </div>
-                {/* <Typography variant="subtitle1" align="center">
-                  ABC
-                </Typography> */}
               </CardContent>
               <CardActions>
-                {/* <Button fullWidth color="primary">
-                  DEFGHIJK
-                </Button> */}
               </CardActions>
             </Card>
           </Grid>
@@ -147,14 +132,8 @@ class Stats extends React.Component {
                     {this.state.stats.orders_failed}
                   </Typography>
                 </div>
-                {/* <Typography variant="subtitle1" align="center">
-                  ABC
-                </Typography> */}
               </CardContent>
               <CardActions>
-                {/* <Button fullWidth color="primary">
-                  DEFGHIJK
-                </Button> */}
               </CardActions>
             </Card>
           </Grid>

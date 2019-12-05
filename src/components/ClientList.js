@@ -29,6 +29,7 @@ class ClientList extends React.Component {
           title={client.properties.username}
           subtitle={client.properties.first_name + " " + client.properties.last_name}
           description={ <span>{tipoUsuario}  <b>{premium}</b></span> }
+          editable={true}
           urlImage={"https://previews.123rf.com/images/alekseyvanin/alekseyvanin1704/alekseyvanin170400127/75320517-personne-ic%C3%B4ne-de-la-ligne-utilisateur-signe-de-vecteur-de-contour-pictogramme-lin%C3%A9aire-isol%C3%A9-sur-blanc-ill.jpg"} >
         </ListCard>
       )

@@ -27,6 +27,7 @@ import DirectionsBikeIcon from '@material-ui/icons/DirectionsBike';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import BuildIcon from '@material-ui/icons/Build';
 import ListIcon from '@material-ui/icons/List';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import AddUser from './AddUser'
 import ClientList from './ClientList'
@@ -165,7 +166,7 @@ export default connect(
         </ListItemIcon>
         <ListItemText primary="Usuarios" />
       </ListItem>
-      <Link to={`${url}/clients`}>
+      <Link style={{'color': 'black', 'textDecoration': 'none', 'textDecorationColor': 'none', 'textDecorationLine': 'none'}} to={`${url}/clients`}>
         <ListItem button>
           <ListItemIcon>
             <PersonPinIcon />
@@ -173,7 +174,7 @@ export default connect(
           <ListItemText primary="Clientes" />
         </ListItem>
       </Link>
-      <Link to={`${url}/deliveries`}>
+      <Link style={{'color': 'black', 'textDecoration': 'none', 'textDecorationColor': 'none', 'textDecorationLine': 'none'}} to={`${url}/deliveries`}>
         <ListItem button>
           <ListItemIcon>
             <DirectionsBikeIcon />
@@ -181,7 +182,7 @@ export default connect(
           <ListItemText primary="Deliveries" />
         </ListItem>
       </Link>
-      <Link to={`${url}/staff`}>
+      <Link style={{'color': 'black', 'textDecoration': 'none', 'textDecorationColor': 'none', 'textDecorationLine': 'none'}} to={`${url}/staffs`}>
         <ListItem button>
           <ListItemIcon>
             <AccountBoxIcon />
@@ -189,7 +190,7 @@ export default connect(
           <ListItemText primary="Staff" />
         </ListItem>
       </Link>
-      <Link to={`${url}/user/add`}>
+      <Link style={{'color': 'black', 'textDecoration': 'none', 'textDecorationColor': 'none', 'textDecorationLine': 'none'}} to={`${url}/user/add`}>
         <ListItem button>
           <ListItemIcon>
             <AddIcon />
@@ -204,7 +205,7 @@ export default connect(
         </ListItemIcon>
         <ListItemText primary="Pedidos" />
       </ListItem>
-      <Link to={`${url}/orders`}>
+      <Link style={{'color': 'black', 'textDecoration': 'none', 'textDecorationColor': 'none', 'textDecorationLine': 'none'}} to={`${url}/orders`}>
         <ListItem button>
           <ListItemIcon>
             <ListIcon />
@@ -219,7 +220,7 @@ export default connect(
         </ListItemIcon>
         <ListItemText primary="Herramientas" />
       </ListItem>
-      <Link to={`${url}/stats`}>
+      <Link style={{'color': 'black', 'textDecoration': 'none', 'textDecorationColor': 'none', 'textDecorationLine': 'none'}} to={`${url}/stats`}>
         <ListItem button>
           <ListItemIcon>
             <BarChartIcon />
@@ -227,17 +228,11 @@ export default connect(
           <ListItemText primary="Estadísticas" />
         </ListItem>
       </Link>
-      <ListItem button>
+      <ListItem button onClick={logout}>
         <ListItemIcon>
-          <AttachMoneyIcon />
+          <ExitToAppIcon />
         </ListItemIcon>
-        <ListItemText primary="Balance" />
-      </ListItem>
-      <ListItem button>
-        <ListItemIcon>
-          <CardMembershipIcon />
-        </ListItemIcon>
-        <ListItemText primary="Suscripciones" />
+        <ListItemText primary="Salir" />
       </ListItem>
     </div>
   );
@@ -259,7 +254,7 @@ export default connect(
           >
             <MenuIcon />
           </IconButton>
-          <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title} onClick={logout}>
+          <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             Foodie
           </Typography>
         </Toolbar>
@@ -288,7 +283,7 @@ export default connect(
                   <CssBaseline />
                   <AppBar position="absolute" color="default" >
                     <Toolbar>
-                      <Typography variant="h6" color="inherit" noWrap onClick={logout}>
+                      <Typography variant="h6" color="inherit" noWrap>
                         Foodie
                       </Typography>
                     </Toolbar>
@@ -309,11 +304,14 @@ export default connect(
                     <Route path={`${path}/deliveries`}>
                         <DeliveryList/>
                     </Route>
+                    <Route path={`${path}/staffs/edit`}>
+                      <AddUser key="editStaff"/>
+                    </Route>
+                    <Route path={`${path}/staffs`}>
+                        <StaffList/>
+                    </Route>
                     <Route path={`${path}/orders`}>
                         <OrderList/>
-                    </Route>
-                    <Route path={`${path}/staff`}>
-                        <StaffList/>
                     </Route>
                     <Route path={`${path}/stats`}>
                         <Stats/>

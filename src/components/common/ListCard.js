@@ -60,42 +60,54 @@ export default function ListCard(props) {
     title: props.title,
     subtitle: props.subtitle,
     description: props.description,
-    urlImage: props.urlImage
+    urlImage: props.urlImage,
+    editable: !!(props.editable)
   }
 
   let { url } = useRouteMatch();
+
+  const CardElement = () => {
+    return (
+    <CardActionArea>
+      <Card className={classes.card}>
+        <div className={classes.cardDetails}>
+          <CardContent>
+            <Typography component="h2" variant="h5">
+              {post.title}
+            </Typography>
+            <Typography variant="subtitle1" color="textSecondary">
+              {post.subtitle}
+            </Typography>
+            <Typography variant="subtitle1" paragraph>
+              {post.description}
+            </Typography>
+            <Typography variant="subtitle1" color="primary">
+              Editar
+            </Typography>
+          </CardContent>
+        </div>
+        <Hidden xsDown>
+          <CardMedia
+            className={classes.cardMedia}
+            image={post.urlImage}
+            title="Image title"
+          />
+        </Hidden>
+      </Card>
+    </CardActionArea>
+    )
+  }
   
   return (
     <Grid item key={post.title} xs={12} md={6}>
+      {
+      post.editable ? 
       <Link to={`${url}/edit/${post.id}`}>
-        <CardActionArea>
-          <Card className={classes.card}>
-            <div className={classes.cardDetails}>
-              <CardContent>
-                <Typography component="h2" variant="h5">
-                  {post.title}
-                </Typography>
-                <Typography variant="subtitle1" color="textSecondary">
-                  {post.subtitle}
-                </Typography>
-                <Typography variant="subtitle1" paragraph>
-                  {post.description}
-                </Typography>
-                <Typography variant="subtitle1" color="primary">
-                  Editar
-                </Typography>
-              </CardContent>
-            </div>
-            <Hidden xsDown>
-              <CardMedia
-                className={classes.cardMedia}
-                image={post.urlImage}
-                title="Image title"
-              />
-            </Hidden>
-          </Card>
-        </CardActionArea>
+        <CardElement></CardElement>
       </Link>
+      : <CardElement></CardElement>      
+      }
     </Grid>
   );
 }
+
