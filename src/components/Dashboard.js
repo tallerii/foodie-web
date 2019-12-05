@@ -53,6 +53,11 @@ const useStyles = makeStyles(theme => ({
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
   },
+  activeLink: {
+    'borderLeftStyle': 'solid',
+    'borderLeftColor': '#4fc3f7',
+    'borderLeftWidth': '5px'
+  },
   toolbarIcon: {
     display: 'flex',
     alignItems: 'center',
@@ -165,7 +170,7 @@ export default connect(
         <ListItemText primary="Usuarios" />
       </ListItem>
       <Link style={{'color': 'black', 'textDecoration': 'none', 'textDecorationColor': 'none', 'textDecorationLine': 'none'}} to={`${url}/clients`}>
-        <ListItem button>
+        <ListItem className={window.location.href.includes('clients') ? classes.activeLink : null} button>
           <ListItemIcon>
             <PersonPinIcon />
           </ListItemIcon>
@@ -173,7 +178,7 @@ export default connect(
         </ListItem>
       </Link>
       <Link style={{'color': 'black', 'textDecoration': 'none', 'textDecorationColor': 'none', 'textDecorationLine': 'none'}} to={`${url}/deliveries`}>
-        <ListItem button>
+        <ListItem className={window.location.href.includes('deliveries') ? classes.activeLink : null} button>
           <ListItemIcon>
             <DirectionsBikeIcon />
           </ListItemIcon>
@@ -181,7 +186,7 @@ export default connect(
         </ListItem>
       </Link>
       <Link style={{'color': 'black', 'textDecoration': 'none', 'textDecorationColor': 'none', 'textDecorationLine': 'none'}} to={`${url}/staffs`}>
-        <ListItem button>
+        <ListItem className={window.location.href.includes('staffs') ? classes.activeLink : null} button>
           <ListItemIcon>
             <AccountBoxIcon />
           </ListItemIcon>
@@ -189,7 +194,7 @@ export default connect(
         </ListItem>
       </Link>
       <Link style={{'color': 'black', 'textDecoration': 'none', 'textDecorationColor': 'none', 'textDecorationLine': 'none'}} to={`${url}/user/add`}>
-        <ListItem button>
+        <ListItem className={window.location.href.includes('user/add') ? classes.activeLink : null} button>
           <ListItemIcon>
             <AddIcon />
           </ListItemIcon>          
@@ -204,7 +209,7 @@ export default connect(
         <ListItemText primary="Pedidos" />
       </ListItem>
       <Link style={{'color': 'black', 'textDecoration': 'none', 'textDecorationColor': 'none', 'textDecorationLine': 'none'}} to={`${url}/orders`}>
-        <ListItem button>
+        <ListItem className={window.location.href.includes('orders') ? classes.activeLink : null} button>
           <ListItemIcon>
             <ListIcon />
           </ListItemIcon>
@@ -219,7 +224,7 @@ export default connect(
         <ListItemText primary="Herramientas" />
       </ListItem>
       <Link style={{'color': 'black', 'textDecoration': 'none', 'textDecorationColor': 'none', 'textDecorationLine': 'none'}} to={`${url}/stats`}>
-        <ListItem button>
+        <ListItem className={window.location.href.includes('stats') ? classes.activeLink : null} button>
           <ListItemIcon>
             <BarChartIcon />
           </ListItemIcon>
